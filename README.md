@@ -17,3 +17,27 @@ This repository contains 3 components - [the CLI](src/cli), [the GUI](rpkg-gui) 
 [The CLI](src/cli) allows you to perform simple operations from a terminal. </br>
 [The GUI](rpkg-gui) allows you to easily perform operations with a user interface. </br>
 And [the DLL](src/lib) allows you to embed RPKG into your own apps. </br>
+
+**Note:** To build the project, first configure the CMake project. Then, in the generated file `Build-Path/_deps/gltfsdk-src/CMakeLists.txt`, locate the following code block (around line 45):
+
+```cmake
+find_package(GTest CONFIG)
+if(NOT GTest_FOUND)
+    add_subdirectory(External/googletest)
+    add_library(GTest::gtest_main ALIAS gtest_main)
+endif()
+```
+
+Replace it with:
+
+```cmake
+find_package(GTest CONFIG)
+if(NOT GTest_FOUND)
+    add_subdirectory(External/googletest)
+    if(NOT TARGET GTest::gtest_main)
+        add_library(GTest::gtest_main ALIAS gtest_main)
+    endif()
+endif()
+```
+
+This change checks whether the `GTest::gtest_main` target already exists before attempting to create the alias. If the target already exists, CMake skips creating it, preventing the duplicate-target error that would otherwise cause CMake configuration to fail.

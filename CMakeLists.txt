@@ -353,6 +353,13 @@ target_link_libraries(rpkg-lib PUBLIC
     TonyTools::HMLanguages
 )
 
+# Copy quickentity_ffi.dll next to the exe after each build
+add_custom_command(TARGET rpkg-cli POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${PROJECT_SOURCE_DIR}/thirdparty/quickentity-ffi/quickentity_ffi.dll"
+        $<TARGET_FILE_DIR:rpkg-cli>
+)
+
 include_directories(${CMAKE_SOURCE_DIR})
 # Pre-processed version header file (on configure step, before build)
 include_directories(${CMAKE_BINARY_DIR}/src)

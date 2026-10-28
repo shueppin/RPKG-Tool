@@ -103,7 +103,7 @@ void rpkg_function::extract_prim_textured_from(std::string& input_path, std::str
 
         //rpkg_function::extract_hash_meta(rpkg_index, it->second, hash_meta_file_name);
 
-        std::vector<jpg_textures> all_jpg_textures;
+        std::vector<png_textures> all_png_textures;
 
         uint32_t temp_hash_reference_count = rpkgs.at(temp_prim.prim_rpkg_index).hash.at(
                 temp_prim.prim_hash_index).hash_reference_data.hash_reference_count & 0x3FFFFFFF;
@@ -123,9 +123,9 @@ void rpkg_function::extract_prim_textured_from(std::string& input_path, std::str
                 rpkgs.at(temp_rpkg_index).hash.at(it2->second).hash_resource_type != "MATI")
                 continue;
 
-            jpg_textures temp_jpg_textures;
+            png_textures temp_png_textures;
 
-            temp_jpg_textures.material_id = d;
+            temp_png_textures.material_id = d;
 
             mati temp_mati(temp_rpkg_index, it2->second);
 
@@ -144,14 +144,14 @@ void rpkg_function::extract_prim_textured_from(std::string& input_path, std::str
                     text temp_text(temp_rpkg_index2, it3->second);
 
                     if (temp_text.texd_found) {
-                        if (temp_text.save_texd_to_jpg("")) {
-                            temp_jpg_textures.has_diffuse_texture = true;
-                            temp_jpg_textures.texture_diffuse_jpg = temp_text.texd_data_jpg;
+                        if (temp_text.save_texd_to_png_data("")) {
+                            temp_png_textures.has_diffuse_texture = true;
+                            temp_png_textures.texture_diffuse_png = temp_text.texd_data_png;
                         }
                     } else {
-                        if (temp_text.save_text_to_jpg("")) {
-                            temp_jpg_textures.has_diffuse_texture = true;
-                            temp_jpg_textures.texture_diffuse_jpg = temp_text.text_data_jpg;
+                        if (temp_text.save_text_to_png_data("")) {
+                            temp_png_textures.has_diffuse_texture = true;
+                            temp_png_textures.texture_diffuse_png = temp_text.text_data_png;
                         }
                     }
                 }
@@ -170,14 +170,14 @@ void rpkg_function::extract_prim_textured_from(std::string& input_path, std::str
                     text temp_text(temp_rpkg_index2, it3->second);
 
                     if (temp_text.texd_found) {
-                        if (temp_text.save_texd_to_jpg("")) {
-                            temp_jpg_textures.has_normal_texture = true;
-                            temp_jpg_textures.texture_normal_jpg = temp_text.texd_data_jpg;
+                        if (temp_text.save_texd_to_png_data("")) {
+                            temp_png_textures.has_normal_texture = true;
+                            temp_png_textures.texture_normal_png = temp_text.texd_data_png;
                         }
                     } else {
-                        if (temp_text.save_text_to_jpg("")) {
-                            temp_jpg_textures.has_normal_texture = true;
-                            temp_jpg_textures.texture_normal_jpg = temp_text.text_data_jpg;
+                        if (temp_text.save_text_to_png_data("")) {
+                            temp_png_textures.has_normal_texture = true;
+                            temp_png_textures.texture_normal_png = temp_text.text_data_png;
                         }
                     }
                 }
@@ -196,21 +196,21 @@ void rpkg_function::extract_prim_textured_from(std::string& input_path, std::str
                     text temp_text(temp_rpkg_index2, it3->second);
 
                     if (temp_text.texd_found) {
-                        if (temp_text.save_texd_to_jpg("")) {
-                            temp_jpg_textures.has_emissive_texture = true;
-                            temp_jpg_textures.texture_emissive_jpg = temp_text.texd_data_jpg;
+                        if (temp_text.save_texd_to_png_data("")) {
+                            temp_png_textures.has_emissive_texture = true;
+                            temp_png_textures.texture_emissive_png = temp_text.texd_data_png;
                         }
                     }
                     else {
-                        if (temp_text.save_text_to_jpg("")) {
-                            temp_jpg_textures.has_emissive_texture = true;
-                            temp_jpg_textures.texture_emissive_jpg = temp_text.texd_data_jpg;
+                        if (temp_text.save_text_to_png_data("")) {
+                            temp_png_textures.has_emissive_texture = true;
+                            temp_png_textures.texture_emissive_png = temp_text.text_data_png;
                         }
                     }
                 }
             }
 
-            all_jpg_textures.push_back(temp_jpg_textures);
+            all_png_textures.push_back(temp_png_textures);
         }
 
         prim_lod_data = "";
@@ -221,7 +221,7 @@ void rpkg_function::extract_prim_textured_from(std::string& input_path, std::str
         }
 
         gltf::output_to_single_file_with_textures(temp_prim.asset3ds_data, asset_file_name, GLB_SINGLE, false,
-                                                  all_jpg_textures);
+                                                  all_png_textures);
     }
 
     task_single_status = TASK_SUCCESSFUL;

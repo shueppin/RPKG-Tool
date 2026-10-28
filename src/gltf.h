@@ -8,5 +8,5 @@ public:
 
     static void
     output_to_single_file_with_textures(asset3ds& asset3ds_data, std::string& file_path, int type, bool rotate,
-                                        std::vector<jpg_textures> textures);
+                                        std::vector<png_textures> textures);
 };

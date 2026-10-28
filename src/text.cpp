@@ -452,7 +452,7 @@ void text::load_hash_depends() {
     }
 }
 
-bool text::save_text_to_jpg(const std::string& png_path) {
+bool text::save_text_to_png_data(const std::string& png_path) {
     dds_header_data.size = 124;
     dds_header_data.flags = DDS_HEADER_FLAGS_TEXTURE | DDS_HEADER_FLAGS_MIPMAP;
     dds_header_data.width = text_width;
@@ -645,26 +645,26 @@ bool text::save_text_to_jpg(const std::string& png_path) {
 
     DirectX::Blob directx_blob;
 
-    //hresult = DirectX::SaveToWICFile(*scratch_image_to_export->GetImage(0, 0, 0), DirectX::WIC_FLAGS_NONE, DirectX::GetWICCodec(DirectX::WIC_CODEC_PNG), texture_file_path.generic_wstring().c_str());
+    // Encode as PNG (lossless, keeps the alpha channel) instead of JPEG.
     hresult = DirectX::SaveToWICMemory(*scratch_image_to_export->GetImage(0, 0, 0), DirectX::WIC_FLAGS_NONE,
-                                       DirectX::GetWICCodec(DirectX::WIC_CODEC_JPEG), directx_blob);
-
-    text_data_jpg_size = directx_blob.GetBufferSize();
-
-    text_data_jpg = std::vector<char>(text_data_jpg_size, 0);
-
-    std::memcpy(text_data_jpg.data(), directx_blob.GetBufferPointer(), text_data_jpg_size);
+                                       DirectX::GetWICCodec(DirectX::WIC_CODEC_PNG), directx_blob);
 
     if (FAILED(hresult)) {
-        LOG("Error: JPG file " + texture_file_path.generic_string() + " exporting failed.");
+        LOG("Error: PNG data for " + texture_file_path.generic_string() + " exporting failed.");
 
         return false;
     }
 
+    text_data_png_size = directx_blob.GetBufferSize();
+
+    text_data_png = std::vector<char>(text_data_png_size, 0);
+
+    std::memcpy(text_data_png.data(), directx_blob.GetBufferPointer(), text_data_png_size);
+
     return true;
 }
 
-bool text::save_texd_to_jpg(const std::string& png_path) {
+bool text::save_texd_to_png_data(const std::string& png_path) {
     if (texd_found) {
         dds_header_data.size = 124;
         dds_header_data.flags = DDS_HEADER_FLAGS_TEXTURE | DDS_HEADER_FLAGS_MIPMAP;
@@ -860,21 +860,21 @@ bool text::save_texd_to_jpg(const std::string& png_path) {
 
         DirectX::Blob directx_blob;
 
-        //hresult = DirectX::SaveToWICFile(*scratch_image_to_export->GetImage(0, 0, 0), DirectX::WIC_FLAGS_NONE, DirectX::GetWICCodec(DirectX::WIC_CODEC_PNG), texture_file_path.generic_wstring().c_str());
+        // Encode as PNG (lossless, keeps the alpha channel) instead of JPEG.
         hresult = DirectX::SaveToWICMemory(*scratch_image_to_export->GetImage(0, 0, 0), DirectX::WIC_FLAGS_NONE,
-                                           DirectX::GetWICCodec(DirectX::WIC_CODEC_JPEG), directx_blob);
-
-        texd_data_jpg_size = directx_blob.GetBufferSize();
-
-        texd_data_jpg = std::vector<char>(texd_data_jpg_size, 0);
-
-        std::memcpy(texd_data_jpg.data(), directx_blob.GetBufferPointer(), texd_data_jpg_size);
+                                           DirectX::GetWICCodec(DirectX::WIC_CODEC_PNG), directx_blob);
 
         if (FAILED(hresult)) {
-            LOG("Error: JPG file " + texture_file_path.generic_string() + " exporting failed.");
+            LOG("Error: PNG data for " + texture_file_path.generic_string() + " exporting failed.");
 
             return false;
         }
+
+        texd_data_png_size = directx_blob.GetBufferSize();
+
+        texd_data_png = std::vector<char>(texd_data_png_size, 0);
+
+        std::memcpy(texd_data_png.data(), directx_blob.GetBufferPointer(), texd_data_png_size);
     }
 
     return true;

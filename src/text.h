@@ -16,9 +16,9 @@ public:
 
     void load_hash_depends();
 
-    bool save_text_to_jpg(const std::string& png_path);
+    bool save_text_to_png_data(const std::string& png_path);
 
-    bool save_texd_to_jpg(const std::string& png_path);
+    bool save_texd_to_png_data(const std::string& png_path);
 
     void save_text_to_png(const std::string& png_path);
 
@@ -40,10 +40,10 @@ public:
     std::vector<char> text_meta_data;
     std::vector<char> text_data;
     std::vector<char> texd_data;
-    std::vector<char> text_data_jpg;
-    std::vector<char> texd_data_jpg;
-    uint64_t text_data_jpg_size;
-    uint64_t texd_data_jpg_size;
+    std::vector<char> text_data_png;
+    std::vector<char> texd_data_png;
+    uint64_t text_data_png_size;
+    uint64_t texd_data_png_size;
     std::vector<std::string> texd_depends_file_name;
     std::vector<std::string> texd_depends_hash_string;
     std::vector<uint64_t> texd_depends_hash_value;

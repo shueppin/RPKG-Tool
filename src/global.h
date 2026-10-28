@@ -231,14 +231,14 @@ struct asset3ds {
     std::vector<uint8_t> lods;
 };
 
-struct jpg_textures {
+struct png_textures {
     uint32_t material_id = 0;
     bool has_diffuse_texture = false;
-    std::vector<char> texture_diffuse_jpg;
+    std::vector<char> texture_diffuse_png;
     bool has_normal_texture = false;
-    std::vector<char> texture_normal_jpg;
+    std::vector<char> texture_normal_png;
     bool has_emissive_texture = false;
-    std::vector<char> texture_emissive_jpg;
+    std::vector<char> texture_emissive_png;
 };
 
 struct doublevector3 {

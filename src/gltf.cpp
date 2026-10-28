@@ -288,7 +288,7 @@ void gltf::output_to_single_file(asset3ds& asset3ds_data, std::string& file_path
 }
 
 void gltf::output_to_single_file_with_textures(asset3ds& asset3ds_data, std::string& file_path, int type, bool rotate,
-                                               std::vector<jpg_textures> textures) {
+                                               std::vector<png_textures> textures) {
     std::vector<std::vector<float>> vertexes_min;
     std::vector<std::vector<float>> vertexes_max;
 
@@ -369,9 +369,9 @@ void gltf::output_to_single_file_with_textures(asset3ds& asset3ds_data, std::str
 
         if (t.has_diffuse_texture) {
             Image image;
-            image.bufferViewId = bufferBuilder.AddBufferView(t.texture_diffuse_jpg.data(),
-                                                             t.texture_diffuse_jpg.size()).id;
-            image.mimeType = "image/jpeg";
+            image.bufferViewId = bufferBuilder.AddBufferView(t.texture_diffuse_png.data(),
+                                                             t.texture_diffuse_png.size()).id;
+            image.mimeType = "image/png";
             std::string image_id = document.images.Append(std::move(image), AppendIdPolicy::GenerateOnEmpty).id;
 
             Texture texture;
@@ -383,9 +383,9 @@ void gltf::output_to_single_file_with_textures(asset3ds& asset3ds_data, std::str
 
         if (t.has_normal_texture) {
             Image image;
-            image.bufferViewId = bufferBuilder.AddBufferView(t.texture_normal_jpg.data(),
-                                                             t.texture_normal_jpg.size()).id;
-            image.mimeType = "image/jpeg";
+            image.bufferViewId = bufferBuilder.AddBufferView(t.texture_normal_png.data(),
+                                                             t.texture_normal_png.size()).id;
+            image.mimeType = "image/png";
             std::string image_id = document.images.Append(std::move(image), AppendIdPolicy::GenerateOnEmpty).id;
 
             Texture texture;
@@ -397,9 +397,9 @@ void gltf::output_to_single_file_with_textures(asset3ds& asset3ds_data, std::str
 
         if (t.has_emissive_texture) {
             Image image;
-            image.bufferViewId = bufferBuilder.AddBufferView(t.texture_emissive_jpg.data(),
-                                                             t.texture_emissive_jpg.size()).id;
-            image.mimeType = "image/jpeg";
+            image.bufferViewId = bufferBuilder.AddBufferView(t.texture_emissive_png.data(),
+                                                             t.texture_emissive_png.size()).id;
+            image.mimeType = "image/png";
             std::string image_id = document.images.Append(std::move(image), AppendIdPolicy::GenerateOnEmpty).id;
 
             Texture texture;
